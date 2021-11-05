@@ -28,7 +28,7 @@ def fetch(num,option):
 
 
 def main():
-    st.set_page_config(page_title="Example App", page_icon="🤖")
+    st.set_page_config(page_title="JLPT Token Verification", page_icon="🤖")
     st.title("JLPT Token Verification")
     with st.form("my_form"):
         number = st.number_input("Phone Number without +91", min_value=0, max_value=9999999999, key="index")
