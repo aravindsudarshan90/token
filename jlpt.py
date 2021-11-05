@@ -1,6 +1,9 @@
 import streamlit as st
 from pymongo import MongoClient
 import datetime 
+import os
+
+os.environ['TZ'] = 'Asia/Kolkata'
 
 mongo = MongoClient('mongodb+srv://aravind:aravind@cluster0-9tkxn.mongodb.net/test?retryWrites=true')
 db = mongo.demo
