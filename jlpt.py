@@ -2,6 +2,8 @@ import streamlit as st
 from pymongo import MongoClient
 import datetime 
 import os
+import json
+import requests
 
 
 
@@ -36,17 +38,18 @@ def main():
         submitted = st.form_submit_button("Submit")
 
         if submitted:
+            time = requests.get(url="http://worldtimeapi.org/api/timezone/Asia/Kolkata").json()['datetime']
             data = fetch(number,option)
             if data == -1:
                 st.image('https://cdn.jsdelivr.net/gh/aravindsudarshan90/CDN/token_exp.PNG', caption=f"Status: Token expired")
             elif list(data):
                 if option=='Breakfast':
                     myquery = {'phone_num':str(number)}
-                    newvalues = {"$set":{'morn_verified':'1','morn_time': datetime.datetime.now()}}
+                    newvalues = {"$set":{'morn_verified':'1','morn_time':time}}
                     JLPT.update_one(myquery, newvalues)
                 elif option=='Lunch':
                     myquery = {'phone_num':str(number)}
-                    newvalues = {"$set":{'aft_verified':'1','aft_time': datetime.datetime.now()}}
+                    newvalues = {"$set":{'aft_verified':'1','aft_time': time}}
                     JLPT.update_one(myquery, newvalues)
                 st.image('https://cdn.jsdelivr.net/gh/aravindsudarshan90/CDN/Verified.PNG', caption=f"Status: Verified")
                 st.write("You are verified. Please proceed to the food counter")
