@@ -17,7 +17,7 @@ def fetch(num):
         aft_result = JLPT.find({'phone_num':str(num),'aft_verified':'0'})
         if list(aft_already_ver):
             return -1
-        return aft_result
+        return list(aft_result)
     except Exception:
         return {}
 
@@ -35,9 +35,10 @@ def main():
             data = fetch(number)
             if data == -1:
                 st.image('https://cdn.jsdelivr.net/gh/aravindsudarshan90/CDN/Verifie_Double.PNG', caption=f"Status: Token Already Verified")
-            elif list(data):
+            elif data:
                 myquery = {'phone_num':str(number)}
                 newvalues = {"$set":{'aft_verified':'1','aft_time': time}}
+                st.write("Name: " + str(data[0]['name']))
                 JLPT.update_one(myquery, newvalues)
                 st.image('https://cdn.jsdelivr.net/gh/aravindsudarshan90/CDN/Verified.PNG', caption=f"Status: Verified")
                 st.write("You are verified. Please proceed to the food counter")

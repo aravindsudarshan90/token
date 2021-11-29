@@ -17,7 +17,7 @@ def fetch(num):
         morn_result = JLPT.find({'phone_num':str(num),'morn_verified':'0'})
         if list(morn_already_ver):
             return -1
-        return morn_result
+        return list(morn_result)
     except Exception:
         return {}
 
@@ -34,12 +34,13 @@ def main():
 
         if submitted:
             time = requests.get(url="http://worldtimeapi.org/api/timezone/Asia/Kolkata").json()['datetime']
-            data = fetch(number)
+            data= fetch(number)
             if data == -1:
                 st.image('https://cdn.jsdelivr.net/gh/aravindsudarshan90/CDN/Verifie_Double.PNG', caption=f"Status: Token Already Verified")
-            elif list(data):
+            elif data:
                 myquery = {'phone_num':str(number)}
                 newvalues = {"$set":{'morn_verified':'1','morn_time':time}}
+                st.write("Name: " + str(data[0]['name']))
                 JLPT.update_one(myquery, newvalues)
                 st.image('https://cdn.jsdelivr.net/gh/aravindsudarshan90/CDN/Verified.PNG', caption=f"Status: Verified")
                 st.write("You are verified. Please proceed to the food counter")
