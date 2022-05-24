@@ -1,1 +1,0 @@
-web: sh setup.sh && streamlit run jlpt_morning.py
